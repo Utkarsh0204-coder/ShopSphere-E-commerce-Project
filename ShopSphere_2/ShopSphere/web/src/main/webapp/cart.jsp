@@ -1,0 +1,23 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<c:set var="pageTitle" value="Your Cart | ShopSphere" scope="request"/>
+<%@ include file="fragments/header.jsp" %>
+<%@ include file="fragments/navbar.jsp" %>
+<main class="container py-5 cart-page">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4"><div><span class="eyebrow">YOUR SHOPPING BAG</span><h1 class="mt-2">Shopping Cart</h1><p class="muted">Review your items before placing your order.</p></div><a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/products">Continue shopping</a></div>
+  <c:if test="${not empty param.error}"><div class="alert alert-warning">Your cart is empty. Add a product before checkout.</div></c:if>
+  <c:if test="${not empty checkoutError}"><div class="alert alert-danger"><c:out value="${checkoutError}"/></div></c:if>
+  <c:choose><c:when test="${not empty cartItems}">
+    <div class="cart-layout"><section class="cart-items">
+      <c:forEach var="item" items="${cartItems}"><article class="cart-item">
+        <img src="<c:out value='${item.product.imageUrl}'/>" alt="<c:out value='${item.product.name}'/>" onerror="this.style.visibility='hidden'">
+        <div class="cart-item-info"><h3><c:out value="${item.product.name}"/></h3><p class="muted"><c:out value="${item.product.brand}"/></p><strong>₹<c:out value="${item.product.finalPrice}"/></strong></div>
+        <form method="post" action="${pageContext.request.contextPath}/cart" class="cart-quantity-form"><input type="hidden" name="action" value="update"><input type="hidden" name="productId" value="${item.productId}"><label class="visually-hidden">Quantity</label><input type="number" name="quantity" min="1" max="${item.product.stock}" value="${item.quantity}" class="form-control" aria-label="Quantity"><button class="btn btn-outline-dark btn-sm" type="submit">Update</button></form>
+        <div class="cart-subtotal">₹<c:out value="${item.subtotal}"/></div>
+        <form method="post" action="${pageContext.request.contextPath}/cart"><input type="hidden" name="action" value="remove"><input type="hidden" name="productId" value="${item.productId}"><button class="remove-item" type="submit">Remove</button></form>
+      </article></c:forEach>
+    </section><aside class="cart-summary"><h2>Order Summary</h2><div class="summary-line"><span>Items</span><span><c:out value="${cartCount}"/></span></div><div class="summary-line total"><span>Total</span><strong>₹<c:out value="${cartTotal}"/></strong></div><p class="muted small">Demo checkout uses Cash on Delivery. No real payment is processed.</p><form method="post" action="${pageContext.request.contextPath}/checkout"><button class="btn btn-primary w-100" type="submit">Place Order</button></form></aside></div>
+  </c:when><c:otherwise><div class="empty-cart"><div style="font-size:3rem">🛍️</div><h2>Your cart is empty</h2><p class="muted">Looks like you haven't added anything yet.</p><a class="btn btn-primary" href="${pageContext.request.contextPath}/products">Explore products</a></div></c:otherwise></c:choose>
+</main>
+<style>.cart-page h1{font-weight:800}.cart-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:start}.cart-items,.cart-summary{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:20px}.cart-item{display:grid;grid-template-columns:100px minmax(0,1fr) auto auto;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid #e2e8f0}.cart-item:last-child{border-bottom:0}.cart-item img{width:100px;height:90px;object-fit:contain;background:#f8fafc;border-radius:10px}.cart-item h3{font-size:1rem;margin:0 0 4px}.cart-item-info p{margin:0 0 5px}.cart-quantity-form{display:flex;align-items:center;gap:6px}.cart-quantity-form input{width:70px}.cart-subtotal{font-weight:800;white-space:nowrap}.remove-item{border:0;background:none;color:#dc2626;font-size:.85rem}.cart-summary{position:sticky;top:100px}.cart-summary h2{font-size:1.25rem;margin-bottom:20px}.summary-line{display:flex;justify-content:space-between;margin:12px 0}.summary-line.total{border-top:1px solid #e2e8f0;padding-top:16px;font-size:1.15rem}.empty-cart{text-align:center;padding:60px 20px;background:#fff;border:1px solid #e2e8f0;border-radius:16px}.empty-cart .btn{margin-top:10px}@media(max-width:800px){.cart-layout{grid-template-columns:1fr}.cart-item{grid-template-columns:76px minmax(0,1fr);}.cart-item img{width:76px;height:76px}.cart-quantity-form,.cart-subtotal,.cart-item form:last-child{grid-column:2}.cart-summary{position:static}}</style>
+<%@ include file="fragments/footer.jsp" %>

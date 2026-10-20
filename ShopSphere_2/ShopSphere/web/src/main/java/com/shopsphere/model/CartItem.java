@@ -1,0 +1,2 @@
+package com.shopsphere.model;
+public class CartItem { private int productId,quantity; private Product product; public int getProductId(){return productId;} public void setProductId(int x){productId=x;} public int getQuantity(){return quantity;} public void setQuantity(int x){quantity=x;} public Product getProduct(){return product;} public void setProduct(Product x){product=x;} public double getSubtotal(){return product.getFinalPrice()*quantity;} }

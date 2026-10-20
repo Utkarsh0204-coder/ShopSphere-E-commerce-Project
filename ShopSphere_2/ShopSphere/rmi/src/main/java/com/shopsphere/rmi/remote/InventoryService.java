@@ -1,0 +1,1 @@
+package com.shopsphere.rmi.remote;import java.rmi.*;public interface InventoryService extends Remote{String getProduct(int id)throws RemoteException;int getStock(int id)throws RemoteException;boolean updateStock(int id,int qty)throws RemoteException;}

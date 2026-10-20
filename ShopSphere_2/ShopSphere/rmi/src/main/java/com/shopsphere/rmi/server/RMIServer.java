@@ -1,0 +1,1 @@
+package com.shopsphere.rmi.server;import java.rmi.Naming;public class RMIServer{public static void main(String[]x){try{Naming.rebind("rmi://localhost/InventoryService",new InventoryServiceImpl());System.out.println("RMI Server is ready...");}catch(Exception e){e.printStackTrace();}}}

@@ -1,0 +1,1 @@
+<%@ tag body-content="empty" %><%@ attribute name="product" required="true" type="com.shopsphere.model.Product" %><div class="card"><img src="${product.imageUrl}" class="card-img-top"><div class="card-body"><h5>${product.name}</h5><p>₹${product.finalPrice}</p></div></div>
